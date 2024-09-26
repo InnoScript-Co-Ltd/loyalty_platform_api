@@ -1,0 +1,6 @@
+@LoyaltyPlatform.API_HostAddress = http://localhost:5205
+
+GET {{LoyaltyPlatform.API_HostAddress}}/country/
+Accept: application/json
+
+###
