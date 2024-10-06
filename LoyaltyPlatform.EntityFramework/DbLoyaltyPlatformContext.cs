@@ -16,12 +16,15 @@ namespace LoyaltyPlatform.EntityFramework
         }
 
         public DbSet<Country> Countries { get; set; }
-        public DbSet<State> States { get; set; }        
+        public DbSet<State> States { get; set; }   
+        
+        public DbSet<City> Cities { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Country>().ToTable("Country");
             modelBuilder.Entity<State>().ToTable("State");
+            modelBuilder.Entity<City>().ToTable("City");
         }
     }
 }

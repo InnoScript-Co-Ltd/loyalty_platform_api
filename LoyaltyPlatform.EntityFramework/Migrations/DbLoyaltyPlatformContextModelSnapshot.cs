@@ -86,6 +86,20 @@ namespace LoyaltyPlatform.EntityFramework.Migrations
 
                     b.Navigation("Country");
                 });
+            modelBuilder.Entity("LoyaltyPlatform.EntityFramework.EntityModel.City", b =>
+            {
+                b.Property<int>("Id")
+                .ValueGeneratedOnAdd()
+                .HasColumnType("int");
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                b.Property<String>("Name")
+                .IsRequired()
+                .HasColumnType("nvarchar(max)");
+                b.Property<int>("CountryId")
+                       .HasColumnType("int");
+                b.Property<int>("StateId")
+                        .HasColumnType("int");
+            });
 #pragma warning restore 612, 618
         }
     }
