@@ -23,18 +23,18 @@ namespace LoyaltyPlatform.API.Controllers
 
         // GET: api/<CountryController>
         [HttpGet]
-        public ActionResult<IEnumerable<CountryDTO>> Get()
+        public ActionResult<IEnumerable<CountryPagingDTO>> Get([FromQuery] PageSortParam pageSortParam)
         {
             try
-            {                
-                IEnumerable<CountryDTO> lstCountry = _countryRepository.GetAllCountry();
-                if (!lstCountry.Any())
+            {
+                CountryPagingDTO countryPagingDTO = _countryRepository.GetAllCountry(pageSortParam);
+                if (!countryPagingDTO.Countries.Any())
                 {
                     return NoContent();
                 }
                 // Add a custom header
                 //Response.Headers.Add("X-Custom-Header", "foo");
-                return Ok(lstCountry);
+                return Ok(countryPagingDTO);
 
             }
             catch (Exception ex)
@@ -76,6 +76,11 @@ namespace LoyaltyPlatform.API.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
                 if (countryDTO == null)
                 {
                     return BadRequest();

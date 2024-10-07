@@ -22,6 +22,9 @@ namespace LoyaltyPlatform.EntityFramework
         {
             modelBuilder.Entity<Country>().ToTable("Country");
             modelBuilder.Entity<State>().ToTable("State");
+            modelBuilder.Entity<City>().ToTable("City");
+            modelBuilder.Entity<Township>().ToTable("Township");
+            modelBuilder.Entity<Merchant>().ToTable("Merchant");
         }
     }
 }
