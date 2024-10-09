@@ -28,10 +28,12 @@ namespace LoyaltyPlatform.DataAccess.Implementation
             try
             {
                 State stateEntity = new State();
+                var country = _dbLoyaltyPlatformContext.Countries.FirstOrDefault(c => c.Id == stateDTO.CountryId);
                 StateConverter.ConvertModelToEntity(stateDTO, ref stateEntity);
                 _dbLoyaltyPlatformContext.Add(stateEntity);
                 _dbLoyaltyPlatformContext.SaveChanges();
                 stateDTO.Id = stateEntity.Id;
+                stateDTO.CountryName = country.Name;
                 LoggerHelper.Instance.LogInfo($"City added successfully with Id: {stateDTO.Id}");
 
                 return stateDTO;
@@ -92,7 +94,8 @@ namespace LoyaltyPlatform.DataAccess.Implementation
         {
             try
             {
-                return StateConverter.ConvertEntityToModel(_dbLoyaltyPlatformContext.States.FirstOrDefault(x => x.Id == id));
+
+                return StateConverter.ConvertEntityToModel(_dbLoyaltyPlatformContext.States.Include(s => s.Country).FirstOrDefault(x => x.Id == id));
             }
             catch (Exception ex)
             {

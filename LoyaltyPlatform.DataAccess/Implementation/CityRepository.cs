@@ -173,7 +173,7 @@ namespace LoyaltyPlatform.DataAccess.Implementation
         {
             try
             {
-                return CityConverter.ConvertEntityToModel(_dbLoyaltyPlatformContext.Cities.FirstOrDefault(x => x.Id == id));
+                return CityConverter.ConvertEntityToModel(_dbLoyaltyPlatformContext.Cities.Include(s=>s.State).ThenInclude(c=>c.Country).FirstOrDefault(x => x.Id == id));
             }
             catch (Exception ex)
             {
