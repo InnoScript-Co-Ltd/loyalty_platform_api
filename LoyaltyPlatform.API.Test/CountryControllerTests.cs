@@ -35,25 +35,40 @@ namespace LoyaltyPlatform.API.Test
                 new CountryDTO { Id = 1, Name = "USA" },
                 new CountryDTO { Id = 2, Name = "Canada" }
             };
-            _mockCountryRepo.Setup(repo => repo.GetAllCountry()).Returns(countryList);
+
+            var pagingDTO = new CountryPagingDTO
+            {
+                Countries = countryList,
+                Paging = new PagingResult { TotalCount = 2, TotalPages = 1 }
+            };
+            
+            _mockCountryRepo.Setup(repo => repo.GetAllCountry(It.IsAny<PageSortParam>())).Returns(pagingDTO);
+            var pageSortParam = new PageSortParam { PageSize = 10, CurrentPage = 1 };
 
             // Act
-            var result = _controller.Get();
+            var result = _controller.Get(pageSortParam);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result.Result);
-            var returnValue = Assert.IsAssignableFrom<IEnumerable<CountryDTO>>(okResult.Value);
-            Assert.Equal(2, returnValue.Count());
+            var returnValue = Assert.IsType<CountryPagingDTO>(okResult.Value);
+            Assert.Equal(2, returnValue.Countries.Count());
         }
 
         [Fact]
         public void Get_ReturnsNoContent_WhenNoCountriesExist()
         {
             // Arrange
-            _mockCountryRepo.Setup(repo => repo.GetAllCountry()).Returns(new List<CountryDTO>());
+            var pagingDTO = new CountryPagingDTO
+            {
+                Countries = new List<CountryDTO>(),
+                Paging = new PagingResult { TotalCount = 0, TotalPages = 1 }
+            };
+
+            _mockCountryRepo.Setup(repo => repo.GetAllCountry(It.IsAny<PageSortParam>())).Returns(pagingDTO);
+            var pageSortParam = new PageSortParam { PageSize = 10, CurrentPage = 1 };
 
             // Act
-            var result = _controller.Get();
+            var result = _controller.Get(pageSortParam);
 
             // Assert
             Assert.IsType<NoContentResult>(result.Result);
@@ -103,6 +118,22 @@ namespace LoyaltyPlatform.API.Test
             var returnValue = Assert.IsType<CountryDTO>(createdAtActionResult.Value);
             Assert.Equal(1, returnValue.Id);
         }
+
+        [Fact]
+        public void Post_ReturnsBadRequest_WhenModelIsInvalid()
+        {
+            // Arrange
+            var invalidCountry = new CountryDTO { Id = 1 }; // Missing required 'Name' field
+            _controller.ModelState.AddModelError("Name", "The Name field is required.");
+
+            // Act
+            var result = _controller.Post(invalidCountry);
+
+            // Assert
+            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result.Result);
+            Assert.IsType<SerializableError>(badRequestResult.Value);
+        }
+
 
         [Fact]
         public void Delete_ReturnsNoContent_WhenCountryDeleted()

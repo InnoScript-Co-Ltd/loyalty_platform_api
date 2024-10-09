@@ -11,7 +11,7 @@ namespace LoyaltyPlatform.DataAccess.Interface
     {   
         CityDTO AddCity(CityDTO city);
         bool UpdateCity(CityDTO city);
-        IEnumerable<CityDTO> GetAllCity();
+        CityPagingDTO GetAllCity(PageSortParam pageSortParam);
         bool DeleteCity(int id);
         CityDTO GetCity(int id);
     }

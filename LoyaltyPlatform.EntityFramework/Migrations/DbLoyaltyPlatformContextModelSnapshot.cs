@@ -99,6 +99,29 @@ namespace LoyaltyPlatform.EntityFramework.Migrations
                        .HasColumnType("int");
                 b.Property<int>("StateId")
                         .HasColumnType("int");
+                b.HasKey("Id");
+                b.HasIndex("CountryId");
+                b.HasIndex("StateId");
+                b.ToTable("City", (string)null);
+            });
+            modelBuilder.Entity("LoyaltyPlatform.EntityFramework.EntityModel.Country", b =>
+            {
+                b.HasOne("LoyaltyPlatform.EntityFramework.EntityModel.Country", "Country")
+                    .WithMany()
+                    .HasForeignKey("CountryId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+                b.Navigation("Country");
+            });
+            modelBuilder.Entity("LoyaltyPlatform.EntityFramework.EntityModel.State", b =>
+            {
+                b.HasOne("LoyaltyPlatform.EntityFramework.EntityModel.State", "State")
+                    .WithMany()
+                    .HasForeignKey("StateId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+
+                b.Navigation("State");
             });
 #pragma warning restore 612, 618
         }

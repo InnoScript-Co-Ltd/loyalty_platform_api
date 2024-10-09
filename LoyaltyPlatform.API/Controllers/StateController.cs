@@ -3,49 +3,48 @@ using LoyaltyPlatform.DataAccess.Interface;
 using LoyaltyPlatform.Logging;
 using LoyaltyPlatform.Model.DTO;
 using Microsoft.AspNetCore.Mvc;
-using Serilog;
-
+using Microsoft.IdentityModel.Logging;
 
 namespace LoyaltyPlatform.API.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class CityController : ControllerBase
+    public class StateController : ControllerBase
     {
-        LoggerHelper _logHelper;
-        private readonly ICityRepository _cityRepository;
 
-        public CityController(ICityRepository cityRepository)
+        LoggerHelper _logHelper; 
+        private readonly IStateRepository _stateRepository;
+            
+        public StateController(IStateRepository stateRepository)
         {
             _logHelper = LoggerHelper.Instance;
-            _cityRepository = cityRepository;
+            _stateRepository = stateRepository;
         }
 
-
-        //GET: api/<CityController>
         [HttpGet]
-        public ActionResult<CityPagingDTO> Get([FromQuery] PageSortParam pageSortParam)
+        public ActionResult<IEnumerable<StatePagingDTO>> Get([FromQuery] PageSortParam pageSortParam)
         {
             try
             {
-                CityPagingDTO cityPaginDTO = _cityRepository.GetAllCity(pageSortParam);
-                if (!cityPaginDTO.Cities.Any())
+                StatePagingDTO statePagingDTO = _stateRepository.GetAllState(pageSortParam);
+                if (!statePagingDTO.States.Any())
                 {
                     return NoContent();
                 }
-                // Add a custom header
-                //Response.Headers.Add("X-Custom-Header", "foo");
-                return Ok(cityPaginDTO);
-       
+               
+                return Ok(statePagingDTO);
+
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 _logHelper.LogError(ex);
                 return StatusCode(500, "An error occurred while processing your request.");
 
             }
         }
+
         [HttpGet("{id}")]
-        public ActionResult<CityDTO> Get(int id)
+        public ActionResult<StateDTO> Get(int id)
         {
             try
             {
@@ -54,7 +53,7 @@ namespace LoyaltyPlatform.API.Controllers
                 {
                     return BadRequest();
                 }
-                var result = _cityRepository.GetCity(id);
+                var result = _stateRepository.GetState(id);
                 if (result == null)
                 {
                     return NotFound();
@@ -66,20 +65,19 @@ namespace LoyaltyPlatform.API.Controllers
                 _logHelper.LogError(ex);
                 return StatusCode(500, "An error occurred while processing your request.");
             }
-        }    
-        
-        // POST api/<CityController>
+        }
+
         [HttpPost]
-        public ActionResult<CityDTO> Post([FromBody] CityDTO cityDTO)
+        public ActionResult<StateDTO> AdddState([FromBody] StateDTO stateDTO)
         {
             try
             {
-                if (cityDTO == null)
+                if (stateDTO == null)
                 {
                     return BadRequest();
                 }
-                var createdCountry = _cityRepository.AddCity(cityDTO);
-                return CreatedAtAction(nameof(Get), new { id = createdCountry.Id }, createdCountry);
+                var createdState = _stateRepository.AddState(stateDTO);
+                return CreatedAtAction(nameof(Get), new { id = createdState.Id }, createdState);
             }
             catch (Exception ex)
             {
@@ -87,19 +85,19 @@ namespace LoyaltyPlatform.API.Controllers
                 return StatusCode(500, "An error occurred while processing your request.");
 
             }
+
         }
 
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] CityDTO cityDTO)
+        public ActionResult Put(int id, [FromBody] StateDTO stateDTO)
         {
             try
             {
-                if(cityDTO == null || id !=cityDTO.Id)
+                if (stateDTO == null || id != stateDTO.Id)
                 {
                     return BadRequest();
                 }
-                var result= _cityRepository.UpdateCity(cityDTO);
-
+                var result = _stateRepository.UpdateState(stateDTO);
                 if (!result)
                 {
                     return NotFound();
@@ -120,7 +118,7 @@ namespace LoyaltyPlatform.API.Controllers
         {
             try
             {
-                var result = _cityRepository.DeleteCity(id);
+                var result = _stateRepository.DeleteState(id);
                 if (!result)
                 {
                     return NotFound();
@@ -128,16 +126,11 @@ namespace LoyaltyPlatform.API.Controllers
 
                 return NoContent();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logHelper.LogError(ex);
                 return StatusCode(500, "An error occurred while processing your request.");
             }
         }
-
-
-
-
-
     }
 }

@@ -13,7 +13,7 @@ namespace LoyaltyPlatform.DataAccess.Interface
     {
         CountryDTO AddCountry(CountryDTO countryDTO);
         bool DeleteCountry(int id);
-        IEnumerable<CountryDTO> GetAllCountry();
+        CountryPagingDTO GetAllCountry(PageSortParam pageSortParam);
         CountryDTO GetCountry(int id);
         bool UpdateCountry(CountryDTO countryDTO);
     }

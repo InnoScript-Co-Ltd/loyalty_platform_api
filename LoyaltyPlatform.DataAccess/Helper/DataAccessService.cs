@@ -16,6 +16,8 @@ namespace LoyaltyPlatform.DataAccess.Helper
         {
             services.AddScoped<ICountryRepository, CountryRepository>();
             services.AddScoped<ICityRepository, CityRepository>();
+            services.AddScoped<IStateRepository, StateRepository>();
+
         }
     }
 }

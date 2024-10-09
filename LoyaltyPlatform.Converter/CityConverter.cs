@@ -25,6 +25,8 @@ namespace LoyaltyPlatform.Converter
                 Name = cityEntity.Name,
                 CountryId = cityEntity.CountryId,
                 StateId= cityEntity.StateId,
+                StateName=cityEntity.State.Name,
+                CountryName = cityEntity.Country.Name
             };
         }
 
