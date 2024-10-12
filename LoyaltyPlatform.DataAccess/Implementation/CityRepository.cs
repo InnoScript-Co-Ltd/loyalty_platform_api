@@ -109,7 +109,7 @@ namespace LoyaltyPlatform.DataAccess.Implementation
                 // Return the paginated result with cities
                 return new CityPagingDTO
                 {
-                    PagingResult = pagingResult,
+                    Paging = pagingResult,
                     Cities = cities,
                 };
             }

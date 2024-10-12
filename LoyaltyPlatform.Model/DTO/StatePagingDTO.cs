@@ -8,7 +8,7 @@ namespace LoyaltyPlatform.Model.DTO
 {
     public class StatePagingDTO
     {
-        public PagingResult PagingResult { get; set; }
+        public PagingResult Paging { get; set; }
         public IEnumerable<StateDTO> States { get; set; }
     }
 }
