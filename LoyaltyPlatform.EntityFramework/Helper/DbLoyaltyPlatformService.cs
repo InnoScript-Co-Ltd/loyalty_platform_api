@@ -25,7 +25,6 @@ namespace LoyaltyPlatform.EntityFramework.Helper
         {
             var dbContextOptions = scope.ServiceProvider.GetRequiredService<DbLoyaltyPlatformContext>();
             dbContextOptions.Database.Migrate();
-
             DbLoyaltyPlatformInitializer.Initialize(dbContextOptions);
         }
 

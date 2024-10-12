@@ -15,6 +15,9 @@ namespace LoyaltyPlatform.DataAccess.Helper
         public static void ConfigureServices(IServiceCollection services, IConfiguration Configuration)
         {
             services.AddScoped<ICountryRepository, CountryRepository>();
+            services.AddScoped<ICityRepository, CityRepository>();
+            services.AddScoped<IStateRepository, StateRepository>();
+
         }
     }
 }
