@@ -104,7 +104,7 @@ namespace LoyaltyPlatform.EntityFramework.Migrations
                 b.HasIndex("StateId");
                 b.ToTable("City", (string)null);
             });
-            modelBuilder.Entity("LoyaltyPlatform.EntityFramework.EntityModel.Country", b =>
+            modelBuilder.Entity("LoyaltyPlatform.EntityFramework.EntityModel.City", b =>
             {
                 b.HasOne("LoyaltyPlatform.EntityFramework.EntityModel.Country", "Country")
                     .WithMany()
@@ -113,7 +113,7 @@ namespace LoyaltyPlatform.EntityFramework.Migrations
                     .IsRequired();
                 b.Navigation("Country");
             });
-            modelBuilder.Entity("LoyaltyPlatform.EntityFramework.EntityModel.State", b =>
+            modelBuilder.Entity("LoyaltyPlatform.EntityFramework.EntityModel.City", b =>
             {
                 b.HasOne("LoyaltyPlatform.EntityFramework.EntityModel.State", "State")
                     .WithMany()
