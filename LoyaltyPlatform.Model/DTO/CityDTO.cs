@@ -8,14 +8,17 @@ using System.Threading.Tasks;
 
 namespace LoyaltyPlatform.Model.DTO
 {
-    public class StateDTO
+    public class CityDTO
     {
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-        public string ZipCode { get; set; }
-        public string Profile { get; set; }
+        [Required]
         public int CountryId { get; set; }
-        public string? CountryName { get; set; }
+        [Required]
+        public int StateId { get; set; }
+        public String? CountryName {  get; set; }
+        public String? StateName { get; set; }
+
     }
 }
