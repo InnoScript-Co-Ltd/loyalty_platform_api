@@ -78,8 +78,8 @@ namespace LoyaltyPlatform.API.Controllers
                 {
                     return BadRequest();
                 }
-                var createdCountry = _cityRepository.AddCity(cityDTO);
-                return CreatedAtAction(nameof(Get), new { id = createdCountry.Id }, createdCountry);
+                var createdCity = _cityRepository.AddCity(cityDTO);
+                return CreatedAtAction(nameof(Get), new { id = createdCity.Id }, createdCity);
             }
             catch (Exception ex)
             {

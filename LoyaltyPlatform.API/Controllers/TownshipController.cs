@@ -64,5 +64,72 @@ namespace LoyaltyPlatform.API.Controllers
             }
         }
 
+        // POST api/<TownshipController>
+        [HttpPost]
+        public ActionResult<TownshipDTO> Post([FromBody] TownshipDTO townshipDTO)
+        {
+            try
+            {
+                if (townshipDTO == null)
+                {
+                    return BadRequest();
+                }
+                var createdTownship = _townshipRepository.AddTownship(townshipDTO);
+                return CreatedAtAction(nameof(Get), new { id = createdTownship.Id }, createdTownship);
+            }
+            catch (Exception ex)
+            {
+                _logHelper.LogError(ex);
+                return StatusCode(500, "An error occurred while processing your request.");
+
+            }
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult Put(int id, [FromBody] TownshipDTO townshipDTO)
+        {
+            try
+            {
+                if (townshipDTO == null || id != townshipDTO.Id)
+                {
+                    return BadRequest();
+                }
+                var result = _townshipRepository.UpdateTownship(townshipDTO);
+
+                if (!result)
+                {
+                    return NotFound();
+                }
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logHelper.LogError(ex);
+                return StatusCode(500, "An error occurred while processing your request.");
+
+            }
+
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id)
+        {
+            try
+            {
+                var result = _townshipRepository.DeleteTownship(id);
+                if (!result)
+                {
+                    return NotFound();
+                }
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logHelper.LogError(ex);
+                return StatusCode(500, "An error occurred while processing your request.");
+            }
+        }
+
     }
 }
