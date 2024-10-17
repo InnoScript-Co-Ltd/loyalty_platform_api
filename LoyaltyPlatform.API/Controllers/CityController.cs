@@ -104,7 +104,7 @@ namespace LoyaltyPlatform.API.Controllers
                 {
                     return NotFound();
                 }
-                return NoContent();
+                return Ok(result);
             }
             catch (Exception ex)
             {
