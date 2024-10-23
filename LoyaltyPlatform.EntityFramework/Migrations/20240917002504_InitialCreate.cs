@@ -106,6 +106,25 @@ namespace LoyaltyPlatform.EntityFramework.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+            migrationBuilder.CreateTable(
+                name: "Merchant",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Profile = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PrefixPhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    EmailVerifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PhoneVerifiedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Merchant", x => x.Id);
+                });
             migrationBuilder.CreateIndex(
                 name: "IX_State_CountryId",
                 table: "State",
@@ -147,6 +166,9 @@ namespace LoyaltyPlatform.EntityFramework.Migrations
 
             migrationBuilder.DropTable(
                 name: "Township");
+
+            migrationBuilder.DropTable(
+                name: "Merchant");
 
         }
     }
