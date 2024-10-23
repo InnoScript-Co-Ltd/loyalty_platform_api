@@ -1,60 +1,56 @@
-using LoyaltyPlatform.DataAccess.Implementation;
-using LoyaltyPlatform.DataAccess.Interface;
+﻿using LoyaltyPlatform.DataAccess.Interface;
 using LoyaltyPlatform.Logging;
 using LoyaltyPlatform.Model.DTO;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Serilog;
-
+using System.Collections.Generic;
 
 namespace LoyaltyPlatform.API.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class CityController : ControllerBase
+    public class MerchantController : ControllerBase
     {
-        LoggerHelper _logHelper;
-        private readonly ICityRepository _cityRepository;
+        private readonly LoggerHelper _logHelper;
+        private readonly IMerchantRepository _merchantRepository;
 
-        public CityController(ICityRepository cityRepository)
+        public MerchantController(IMerchantRepository merchantRepository)
         {
             _logHelper = LoggerHelper.Instance;
-            _cityRepository = cityRepository;
+            _merchantRepository = merchantRepository;
         }
 
-
-        //GET: api/<CityController>
+        // GET: api/<MerchantController>
         [HttpGet]
-        public ActionResult<CityPagingDTO> Get([FromQuery] PageSortParam pageSortParam)
+        public ActionResult<IEnumerable<MerchantDTO>> Get([FromQuery] PageSortParam pageSortParam)
         {
             try
             {
-                CityPagingDTO cityPaginDTO = _cityRepository.GetAllCity(pageSortParam);
-                if (!cityPaginDTO.Cities.Any())
+                var merchantPagingDTO = _merchantRepository.GetAllMerchant(pageSortParam);
+                if (!merchantPagingDTO.Merchants.Any())
                 {
                     return NoContent();
                 }
-                // Add a custom header
-                //Response.Headers.Add("X-Custom-Header", "foo");
-                return Ok(cityPaginDTO);
-       
+                return Ok(merchantPagingDTO);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 _logHelper.LogError(ex);
                 return StatusCode(500, "An error occurred while processing your request.");
-
             }
         }
+
+        // GET: api/<MerchantController>/5
         [HttpGet("{id}")]
-        public ActionResult<CityDTO> Get(int id)
+        public ActionResult<MerchantDTO> Get(int id)
         {
             try
             {
-                _logHelper.LogInfo("test info log");
                 if (id == 0)
                 {
                     return BadRequest();
                 }
-                var result = _cityRepository.GetCity(id);
+                var result = _merchantRepository.GetMerchant(id);
                 if (result == null)
                 {
                     return NotFound();
@@ -66,40 +62,45 @@ namespace LoyaltyPlatform.API.Controllers
                 _logHelper.LogError(ex);
                 return StatusCode(500, "An error occurred while processing your request.");
             }
-        }    
-        
-        // POST api/<CityController>
+        }
+
+        // POST api/<MerchantController>
         [HttpPost]
-        public ActionResult<CityDTO> Post([FromBody] CityDTO cityDTO)
+        public ActionResult<MerchantDTO> Post([FromBody] MerchantDTO merchantDTO)
         {
             try
             {
-                if (cityDTO == null)
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                if (merchantDTO == null)
                 {
                     return BadRequest();
                 }
-                var createdCity = _cityRepository.AddCity(cityDTO);
-                return CreatedAtAction(nameof(Get), new { id = createdCity.Id }, createdCity);
+                var createdMerchant = _merchantRepository.AddMerchant(merchantDTO);
+                return CreatedAtAction(nameof(Get), new { id = createdMerchant.Id }, createdMerchant);
             }
             catch (Exception ex)
             {
                 _logHelper.LogError(ex);
                 return StatusCode(500, "An error occurred while processing your request.");
-
             }
         }
 
+        // PUT api/<MerchantController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] CityDTO cityDTO)
+        public ActionResult Put(int id, [FromBody] MerchantDTO merchantDTO)
         {
             try
             {
-                if(cityDTO == null || id !=cityDTO.Id)
+                if (merchantDTO == null || id != merchantDTO.Id)
                 {
                     return BadRequest();
                 }
-                var result= _cityRepository.UpdateCity(cityDTO);
 
+                var result = _merchantRepository.UpdateMerchant(merchantDTO);
                 if (!result)
                 {
                     return NotFound();
@@ -110,34 +111,27 @@ namespace LoyaltyPlatform.API.Controllers
             {
                 _logHelper.LogError(ex);
                 return StatusCode(500, "An error occurred while processing your request.");
-
             }
-
         }
 
+        // DELETE api/<MerchantController>/5
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
             try
             {
-                var result = _cityRepository.DeleteCity(id);
+                var result = _merchantRepository.DeleteMerchant(id);
                 if (!result)
                 {
                     return NotFound();
                 }
-
                 return NoContent();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logHelper.LogError(ex);
                 return StatusCode(500, "An error occurred while processing your request.");
             }
         }
-
-
-
-
-
     }
 }

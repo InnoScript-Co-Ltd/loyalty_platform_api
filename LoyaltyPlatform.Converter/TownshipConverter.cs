@@ -9,42 +9,45 @@ using System.Threading.Tasks;
 
 namespace LoyaltyPlatform.Converter
 {
-    public static class CityConverter
+    public static class TownshipConverter
     {
-        public static CityDTO ConvertEntityToModel(City townshipEntity)
+        public static TownshipDTO ConvertEntityToModel(Township townshipEntity)
         {
             if (townshipEntity == null)
             {
-                LoggerHelper.Instance.LogError(new ArgumentNullException(nameof(townshipEntity)), "City entity is null");
+                LoggerHelper.Instance.LogError(new ArgumentNullException(nameof(townshipEntity)), "Township entity is null");
                 throw new ArgumentNullException(nameof(townshipEntity), "Source townshipEntity cannot be null");
             }
 
-            return new CityDTO()
+            return new TownshipDTO()
             {
                 Id = townshipEntity.Id,
                 Name = townshipEntity.Name,
+                CityId = townshipEntity.CityId,
                 CountryId = townshipEntity.CountryId,
-                StateId= townshipEntity.StateId,
-                StateName=townshipEntity.State.Name,
+                StateId = townshipEntity.StateId,
+                CityName = townshipEntity.City.Name,
+                StateName = townshipEntity.State.Name,
                 CountryName = townshipEntity.Country.Name
             };
         }
 
-        public static void ConvertModelToEntity(CityDTO cityDTO, ref City townshipEntity)
+        public static void ConvertModelToEntity(TownshipDTO townshipDTO, ref Township townshipEntity)
         {
             try
             {
-                if (cityDTO == null)
+                if (townshipDTO == null)
                 {
-                    LoggerHelper.Instance.LogError(new ArgumentNullException(nameof(cityDTO)), "cityDTO is null");
-                    throw new ArgumentNullException(nameof(cityDTO), "Source cityDTO cannot be null");
+                    LoggerHelper.Instance.LogError(new ArgumentNullException(nameof(townshipDTO)), "townshipDTO is null");
+                    throw new ArgumentNullException(nameof(townshipDTO), "Source townshipDTO cannot be null");
                 }
 
-                townshipEntity.Id = cityDTO.Id;
-                townshipEntity.Name = cityDTO.Name;
-                townshipEntity.CountryId = cityDTO.CountryId;
-                townshipEntity.StateId = cityDTO.StateId;
-              
+                townshipEntity.Id = townshipDTO.Id;
+                townshipEntity.Name = townshipDTO.Name;
+                townshipEntity.CountryId = townshipDTO.CountryId;
+                townshipEntity.StateId = townshipDTO.StateId;
+                townshipEntity.CityId = townshipDTO.CityId;
+
             }
             catch (ArgumentException ex)
             {
@@ -59,7 +62,6 @@ namespace LoyaltyPlatform.Converter
 
             }
         }
-
 
     }
 }

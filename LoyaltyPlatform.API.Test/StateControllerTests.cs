@@ -257,7 +257,7 @@ namespace LoyaltyPlatform.API.Test
             var pagingDTO = new StatePagingDTO
             {
                 States = states,
-                PagingResult = new PagingResult { TotalCount = 2, TotalPages = 1 }
+                Paging = new PagingResult { TotalCount = 2, TotalPages = 1 }
             };
 
             _mockStateRepo.Setup(repo => repo.GetAllState(It.IsAny<PageSortParam>())).Returns(pagingDTO);
@@ -279,7 +279,7 @@ namespace LoyaltyPlatform.API.Test
             var pagingDTO = new StatePagingDTO
             {
                 States = new List<StateDTO>(),
-                PagingResult = new PagingResult { TotalCount = 0, TotalPages = 1 }
+                Paging = new PagingResult { TotalCount = 0, TotalPages = 1 }
             };
 
             _mockStateRepo.Setup(repo => repo.GetAllState(It.IsAny<PageSortParam>())).Returns(pagingDTO);

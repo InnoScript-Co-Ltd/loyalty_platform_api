@@ -285,7 +285,7 @@ namespace LoyaltyPlatform.API.Test
             var pagingDTO = new CityPagingDTO
             {
                 Cities = cities,
-                PagingResult = new PagingResult { TotalCount = 2, TotalPages = 1 }
+                Paging = new PagingResult { TotalCount = 2, TotalPages = 1 }
             };
 
             _mockCityRepo.Setup(repo => repo.GetAllCity(It.IsAny<PageSortParam>())).Returns(pagingDTO);
@@ -306,7 +306,7 @@ namespace LoyaltyPlatform.API.Test
             var pagingDTO = new CityPagingDTO
             {
                 Cities = new List<CityDTO>(),
-                PagingResult = new PagingResult { TotalCount = 0, TotalPages = 1 }
+                Paging = new PagingResult { TotalCount = 0, TotalPages = 1 }
             };
 
             _mockCityRepo.Setup(repo => repo.GetAllCity(It.IsAny<PageSortParam>())).Returns(pagingDTO);

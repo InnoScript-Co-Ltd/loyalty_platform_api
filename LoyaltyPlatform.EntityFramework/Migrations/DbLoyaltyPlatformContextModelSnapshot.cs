@@ -123,6 +123,94 @@ namespace LoyaltyPlatform.EntityFramework.Migrations
 
                 b.Navigation("State");
             });
+            modelBuilder.Entity("LoyaltyPlatform.EntityFramework.EntityModel.Township", b =>
+            {
+                b.Property<int>("Id")
+                .ValueGeneratedOnAdd()
+                .HasColumnType("int");
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                b.Property<String>("Name")
+                .IsRequired()
+                .HasColumnType("nvarchar(max)");
+                b.Property<int>("CityId")
+                       .HasColumnType("int");
+                b.Property<int>("StateId")
+                        .HasColumnType("int");
+                b.Property<int>("CountryId")
+                       .HasColumnType("int");
+                b.HasKey("Id");
+                b.HasIndex("CityId");
+                b.HasIndex("StateId");
+                b.HasIndex("CountryId");              
+                b.ToTable("Township", (string)null);
+            });
+            modelBuilder.Entity("LoyaltyPlatform.EntityFramework.EntityModel.Township", b =>
+            {
+                b.HasOne("LoyaltyPlatform.EntityFramework.EntityModel.City", "City")
+                    .WithMany()
+                    .HasForeignKey("CityId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+                b.Navigation("City");
+            });
+            modelBuilder.Entity("LoyaltyPlatform.EntityFramework.EntityModel.Township", b =>
+            {
+                b.HasOne("LoyaltyPlatform.EntityFramework.EntityModel.State", "State")
+                    .WithMany()
+                    .HasForeignKey("StateId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+                b.Navigation("State");
+            });
+            modelBuilder.Entity("LoyaltyPlatform.EntityFramework.EntityModel.Township", b =>
+            {
+                b.HasOne("LoyaltyPlatform.EntityFramework.EntityModel.Country", "Country")
+                    .WithMany()
+                    .HasForeignKey("CountryId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired();
+                b.Navigation("Country");
+            });
+            modelBuilder.Entity("LoyaltyPlatform.EntityFramework.EntityModel.Merchant", b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                b.Property<string>("UserName")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("Profile")
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("FullName")
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("Email")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("PrefixPhoneNumber")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<string>("PhoneNumber")
+                    .IsRequired()
+                    .HasColumnType("nvarchar(max)");
+
+                b.Property<DateTime>("EmailVerifiedDate")
+                    .HasColumnType("datetime");
+
+                b.Property<DateTime>("PhoneVerifiedDate")
+                    .HasColumnType("datetime");
+
+                b.HasKey("Id");
+
+                b.ToTable("Merchant", (string)null);
+            });
 #pragma warning restore 612, 618
         }
     }

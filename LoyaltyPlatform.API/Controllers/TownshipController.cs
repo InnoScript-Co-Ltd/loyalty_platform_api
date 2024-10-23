@@ -1,51 +1,49 @@
-using LoyaltyPlatform.DataAccess.Implementation;
+﻿using LoyaltyPlatform.DataAccess.Implementation;
 using LoyaltyPlatform.DataAccess.Interface;
 using LoyaltyPlatform.Logging;
 using LoyaltyPlatform.Model.DTO;
 using Microsoft.AspNetCore.Mvc;
-using Serilog;
-
 
 namespace LoyaltyPlatform.API.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class CityController : ControllerBase
+    public class TownshipController : ControllerBase
     {
         LoggerHelper _logHelper;
-        private readonly ICityRepository _cityRepository;
-
-        public CityController(ICityRepository cityRepository)
+        private readonly ITownshipRepository _townshipRepository;
+        public TownshipController(ITownshipRepository townshipRepository)
         {
             _logHelper = LoggerHelper.Instance;
-            _cityRepository = cityRepository;
+            _townshipRepository = townshipRepository;
         }
-
-
-        //GET: api/<CityController>
+        //GET: api/<TownshipController>
         [HttpGet]
-        public ActionResult<CityPagingDTO> Get([FromQuery] PageSortParam pageSortParam)
+        public ActionResult<TownshipPagingDTO> Get([FromQuery] PageSortParam pageSortParam)
         {
             try
             {
-                CityPagingDTO cityPaginDTO = _cityRepository.GetAllCity(pageSortParam);
-                if (!cityPaginDTO.Cities.Any())
+                TownshipPagingDTO townshipPagingDTO = _townshipRepository.GetAllTownship(pageSortParam);
+                Console.WriteLine(townshipPagingDTO);
+                if (!townshipPagingDTO.Townships.Any())
                 {
                     return NoContent();
                 }
+                
                 // Add a custom header
                 //Response.Headers.Add("X-Custom-Header", "foo");
-                return Ok(cityPaginDTO);
-       
+                return Ok(townshipPagingDTO);
+
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 _logHelper.LogError(ex);
                 return StatusCode(500, "An error occurred while processing your request.");
 
             }
         }
         [HttpGet("{id}")]
-        public ActionResult<CityDTO> Get(int id)
+        public ActionResult<TownshipDTO> Get(int id)
         {
             try
             {
@@ -54,7 +52,7 @@ namespace LoyaltyPlatform.API.Controllers
                 {
                     return BadRequest();
                 }
-                var result = _cityRepository.GetCity(id);
+                var result = _townshipRepository.GetTownship(id);
                 if (result == null)
                 {
                     return NotFound();
@@ -66,20 +64,20 @@ namespace LoyaltyPlatform.API.Controllers
                 _logHelper.LogError(ex);
                 return StatusCode(500, "An error occurred while processing your request.");
             }
-        }    
-        
-        // POST api/<CityController>
+        }
+
+        // POST api/<TownshipController>
         [HttpPost]
-        public ActionResult<CityDTO> Post([FromBody] CityDTO cityDTO)
+        public ActionResult<TownshipDTO> Post([FromBody] TownshipDTO townshipDTO)
         {
             try
             {
-                if (cityDTO == null)
+                if (townshipDTO == null)
                 {
                     return BadRequest();
                 }
-                var createdCity = _cityRepository.AddCity(cityDTO);
-                return CreatedAtAction(nameof(Get), new { id = createdCity.Id }, createdCity);
+                var createdTownship = _townshipRepository.AddTownship(townshipDTO);
+                return CreatedAtAction(nameof(Get), new { id = createdTownship.Id }, createdTownship);
             }
             catch (Exception ex)
             {
@@ -90,21 +88,21 @@ namespace LoyaltyPlatform.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] CityDTO cityDTO)
+        public ActionResult Put(int id, [FromBody] TownshipDTO townshipDTO)
         {
             try
             {
-                if(cityDTO == null || id !=cityDTO.Id)
+                if (townshipDTO == null || id != townshipDTO.Id)
                 {
                     return BadRequest();
                 }
-                var result= _cityRepository.UpdateCity(cityDTO);
+                var result = _townshipRepository.UpdateTownship(townshipDTO);
 
                 if (!result)
                 {
                     return NotFound();
                 }
-                return Ok(result);
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -120,7 +118,7 @@ namespace LoyaltyPlatform.API.Controllers
         {
             try
             {
-                var result = _cityRepository.DeleteCity(id);
+                var result = _townshipRepository.DeleteTownship(id);
                 if (!result)
                 {
                     return NotFound();
@@ -128,16 +126,12 @@ namespace LoyaltyPlatform.API.Controllers
 
                 return NoContent();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logHelper.LogError(ex);
                 return StatusCode(500, "An error occurred while processing your request.");
             }
         }
-
-
-
-
 
     }
 }
