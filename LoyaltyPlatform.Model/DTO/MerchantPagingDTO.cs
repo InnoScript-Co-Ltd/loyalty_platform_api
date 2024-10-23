@@ -9,6 +9,6 @@ namespace LoyaltyPlatform.Model.DTO
     public class MerchantPagingDTO
     {
         public PagingResult Paging { get; set; }
-        public IEnumerable<CountryDTO> Merchants { get; set; }
+        public IEnumerable<MerchantDTO> Merchants { get; set; }
     }
 }

@@ -27,8 +27,8 @@ namespace LoyaltyPlatform.API.Test
             // Arrange
             var merchantList = new List<MerchantDTO>
             {
-                new MerchantDTO { Id = 1, Name = "Merchant A" },
-                new MerchantDTO { Id = 2, Name = "Merchant B" }
+                new MerchantDTO { Id = 1, UserName = "Merchant A" },
+                new MerchantDTO { Id = 2, UserName = "Merchant B" }
             };
 
             var pagingDTO = new MerchantPagingDTO
@@ -73,7 +73,7 @@ namespace LoyaltyPlatform.API.Test
         public void GetById_ReturnsOkResult_WithMerchant()
         {
             // Arrange
-            var merchant = new MerchantDTO { Id = 1, Name = "Merchant A" };
+            var merchant = new MerchantDTO { Id = 1, UserName = "Merchant A" };
             _mockMerchantRepo.Setup(repo => repo.GetMerchant(1)).Returns(merchant);
 
             // Act
@@ -102,7 +102,7 @@ namespace LoyaltyPlatform.API.Test
         public void Post_ReturnsCreatedAtAction_WhenMerchantCreated()
         {
             // Arrange
-            var merchant = new MerchantDTO { Id = 1, Name = "Merchant A" };
+            var merchant = new MerchantDTO { Id = 1, UserName = "Merchant A" };
             _mockMerchantRepo.Setup(repo => repo.AddMerchant(It.IsAny<MerchantDTO>())).Returns(merchant);
 
             // Act

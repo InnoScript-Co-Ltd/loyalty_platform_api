@@ -115,7 +115,7 @@ namespace LoyaltyPlatform.DataAccess.Implementation
                                  .Take(pageSortParam.PageSize);
                 }
                 // Applying pagination
-                var cities = query.Select(c => TownshipConverter.ConvertEntityToModel(c)).ToList();
+                var townships = query.Select(c => TownshipConverter.ConvertEntityToModel(c)).ToList();
 
 
                 // Create the paging result

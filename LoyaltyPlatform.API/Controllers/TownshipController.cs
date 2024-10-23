@@ -23,14 +23,16 @@ namespace LoyaltyPlatform.API.Controllers
         {
             try
             {
-                TownshipPagingDTO townshipPaginDTO = _townshipRepository.GetAllTownship(pageSortParam);
-                if (!townshipPaginDTO.Townships.Any())
+                TownshipPagingDTO townshipPagingDTO = _townshipRepository.GetAllTownship(pageSortParam);
+                Console.WriteLine(townshipPagingDTO);
+                if (!townshipPagingDTO.Townships.Any())
                 {
                     return NoContent();
                 }
+                
                 // Add a custom header
                 //Response.Headers.Add("X-Custom-Header", "foo");
-                return Ok(townshipPaginDTO);
+                return Ok(townshipPagingDTO);
 
             }
             catch (Exception ex)
@@ -100,7 +102,7 @@ namespace LoyaltyPlatform.API.Controllers
                 {
                     return NotFound();
                 }
-                return NoContent();
+                return Ok();
             }
             catch (Exception ex)
             {

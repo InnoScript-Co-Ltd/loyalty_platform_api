@@ -19,7 +19,7 @@ namespace LoyaltyPlatform.EntityFramework
         public DbSet<State> States { get; set; }        
         public DbSet<City> Cities { get; set; }
         public DbSet<Township> Township { get; set; }
-        public DbSet<Merchant> Township { get; set; }
+        public DbSet<Merchant> Merchants { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

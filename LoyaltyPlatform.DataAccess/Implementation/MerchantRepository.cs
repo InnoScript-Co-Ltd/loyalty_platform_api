@@ -1,7 +1,13 @@
-﻿using LoyaltyPlatform.DataAccess.Interface;
+﻿using LoyaltyPlatform.Converter;
+using LoyaltyPlatform.DataAccess.Interface;
+using LoyaltyPlatform.EntityFramework;
+using LoyaltyPlatform.EntityFramework.EntityModel;
+using LoyaltyPlatform.Logging;
+using LoyaltyPlatform.Model.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
